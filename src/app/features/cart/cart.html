@@ -128,7 +128,7 @@
 
   </div>
 
-  @if (checkoutOpen && cartService.items().length > 0) {
+  @if (checkoutOpen) {
     <section class="checkout" aria-labelledby="checkout-heading">
       <button type="button" class="clear-button" (click)="closePayment()">
         Wróć do koszyka

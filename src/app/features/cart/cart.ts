@@ -30,22 +30,19 @@ export class CartComponent {
       id: 1,
       name: 'Klawiatura mechaniczna',
       description: 'Klawiatura RGB, switch red',
-      price: 299.99,
-      imageUrl: ''
+      price: 299.99
     },
     {
       id: 2,
       name: 'Mysz gamingowa',
       description: 'Mysz optyczna 16000 DPI',
-      price: 159.99,
-      imageUrl: ''
+      price: 159.99
     },
     {
       id: 3,
       name: 'Słuchawki',
       description: 'Słuchawki bezprzewodowe',
-      price: 249.99,
-      imageUrl: ''
+      price: 249.99
     }
   ];
 

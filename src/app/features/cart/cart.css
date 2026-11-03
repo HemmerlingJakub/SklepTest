@@ -9,10 +9,6 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 30px;
-
-  h2 {
-    width: 100%;
-  }
 }
 
 .demo-product-button,
@@ -203,25 +199,4 @@
 
 .field-error {
   color: #b00020;
-}
-
-.payment-note {
-  color: #555;
-}
-
-@media (max-width: 768px) {
-  .cart-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .cart-item {
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 480px) {
-  .cart-container {
-    margin: 16px auto;
-    padding: 12px;
-  }
 }
