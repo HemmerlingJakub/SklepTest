@@ -18,6 +18,9 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "styles": [
+              "src/styles.css"
+            ],
             "assets": [
               {
                 "glob": "**/*",

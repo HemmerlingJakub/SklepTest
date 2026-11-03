@@ -1,0 +1,61 @@
+<section class="menuBoard">
+    <h1>Gaming Store</h1>
+
+    <span><a href="#Home"><img src="/images/Logo.png" alt="Logo"></a></span>
+
+    <span><a routerLink="/shop" routerLinkActive="active"> Home </a></span>
+
+    <span><a href="#Products">Products</a></span>
+    
+
+    <span><a routerLink="/cart" routerLinkActive="active"> Cart @if (cartItemCount() > 0) { (<span>{{ cartItemCount() }}</span>) } </a></span>
+</section>
+
+<section class="store-about" aria-labelledby="about-heading">
+    <p class="store-eyebrow">Welcome to Gaming Store</p>
+    <h2 id="about-heading">Gear up for your Gaming Adventures</h2>
+    <p>
+        Discover quality gaming accessories and everyday tech, carefully selected
+        to make every setup work better.
+    </p>
+</section>
+
+<section class="products-catalog" #Products>
+    @for (product of productCatalog; track product.id) {
+        <div class="product-card" [class.is-flipped]="activeProductId === product.id">
+            <div class="product-card-inner">
+                <article
+                    class="product-face product-front"
+                    [attr.aria-hidden]="activeProductId === product.id"
+                    [attr.inert]="activeProductId === product.id ? '' : null">
+                    @if (product.imageUrl) {
+                        <img
+                            class="product-image"
+                            [src]="product.imageUrl"
+                            [alt]="product.name"
+                            loading="lazy">
+                    }
+                    <h2>{{ product.name }}</h2>
+                    <p class="product-price">Price: {{ product.price | currency:'USD' }}</p>
+                    <div class="product-actions">
+                        <button (click)="addProduct(product)">Add to Cart</button>
+                        <button (click)="viewDetails(product)">View Details</button>
+                    </div>
+                </article>
+
+                <article
+                    class="product-face product-back"
+                    [attr.aria-hidden]="activeProductId !== product.id"
+                    [attr.inert]="activeProductId !== product.id ? '' : null">
+                    <h2>{{ product.name }}</h2>
+                    <p class="product-full-description">{{ product.description }}</p>
+                    <p class="product-price">Price: {{ product.price | currency:'USD' }}</p>
+                    <div class="product-actions">
+                        <button (click)="addProduct(product)">Add to Cart</button>
+                        <button (click)="closeDetails()">Back</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    }
+</section>

@@ -1,18 +1,18 @@
+<nav class="menuBoard" aria-label="Main navigation">
+  <h1>Gaming Store</h1>
+  <a class="store-logo" routerLink="/shop" aria-label="Gaming Store home">
+    <img src="/images/Logo.png" alt="">
+  </a>
+  <a routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <a routerLink="/shop" fragment="Products">Products</a>
+  <a routerLink="/cart" routerLinkActive="active" aria-current="page">
+    Cart @if (cartItemCount() > 0) { ({{ cartItemCount() }}) }
+  </a>
+</nav>
+
 <main class="cart-container">
 
-  <h1>Twój koszyk</h1>
-
-  <div class="demo-products">
-
-    @for (product of demoProducts; track product.id) {
-      <button
-        class="demo-product-button"
-        (click)="addDemoProduct(product)">
-        <span aria-hidden="true">＋</span>
-        {{ product.name }} - {{ product.price | currency:'PLN' }}
-      </button>
-    }
-  </div>
+  <h1>Your Cart</h1>
 
   <div class="cart-layout">
 
@@ -21,8 +21,8 @@
       @if (cartService.items().length === 0) {
         <div class="empty-cart">
           <span class="empty-cart-icon" aria-hidden="true">🛒</span>
-          <h2>Twój koszyk jest pusty</h2>
-          <p>Dodaj produkty, aby kontynuować zakupy.</p>
+          <h2>Your cart is empty</h2>
+          <p>Add products to continue shopping.</p>
         </div>
       } @else {
 
@@ -34,7 +34,7 @@
                 <h3>{{ item.product.name }}</h3>
                 <p>{{ item.product.description }}</p>
                 <strong>
-                  {{ item.product.price | currency:'PLN' }}
+                  {{ item.product.price | currency:'USD' }}
                 </strong>
               </div>
             </div>
@@ -43,16 +43,16 @@
 
               <button
                 class="icon-button"
-                [attr.aria-label]="'Zmniejsz liczbę produktu: ' + item.product.name"
+                [attr.aria-label]="'Decrease quantity of: ' + item.product.name"
                 (click)="decreaseQuantity(item.product.id, item.quantity)">
                 <span aria-hidden="true">−</span>
               </button>
 
-              <span aria-label="Liczba sztuk">{{ item.quantity }}</span>
+              <span aria-label="Quantity">{{ item.quantity }}</span>
 
               <button
                 class="icon-button"
-                [attr.aria-label]="'Zwiększ liczbę produktu: ' + item.product.name"
+                [attr.aria-label]="'Increase quantity of: ' + item.product.name"
                 (click)="increaseQuantity(item.product.id, item.quantity)">
                 <span aria-hidden="true">＋</span>
               </button>
@@ -60,12 +60,12 @@
             </div>
 
             <strong>
-              {{ cartService.getLineTotal(item) | currency:'PLN' }}
+              {{ cartService.getLineTotal(item) | currency:'USD' }}
             </strong>
 
             <button
               class="icon-button remove-button"
-              [attr.aria-label]="'Usuń produkt: ' + item.product.name"
+              [attr.aria-label]="'Remove: ' + item.product.name"
               (click)="cartService.removeFromCart(item.product.id)">
               <span aria-hidden="true">×</span>
             </button>
@@ -82,28 +82,28 @@
 
         <section class="summary-card" aria-labelledby="summary-heading">
 
-          <h2 id="summary-heading">Podsumowanie</h2>
+          <h2 id="summary-heading">Order Summary</h2>
 
           <hr>
 
           <div class="summary-row">
-            <span>Liczba produktów:</span>
+            <span>Items:</span>
             <strong>{{ cartService.totalItems() }}</strong>
           </div>
 
           <div class="summary-row">
-            <span>Wartość produktów:</span>
+            <span>Subtotal:</span>
             <strong>
-              {{ cartService.totalPrice() | currency:'PLN' }}
+              {{ cartService.totalPrice() | currency:'USD' }}
             </strong>
           </div>
 
           <hr>
 
           <div class="summary-row total">
-            <span>Razem:</span>
+            <span>Total:</span>
             <strong>
-              {{ cartService.totalPrice() | currency:'PLN' }}
+              {{ cartService.totalPrice() | currency:'USD' }}
             </strong>
           </div>
 
@@ -111,14 +111,14 @@
             type="button"
             class="checkout-button"
             (click)="goPayment()">
-            Przejdź do płatności
+            Proceed to Checkout
           </button>
 
           <button
             type="button"
             class="clear-button"
             (click)="clearCart()">
-            Wyczyść koszyk
+            Clear Cart
           </button>
 
         </section>
@@ -131,23 +131,23 @@
   @if (checkoutOpen) {
     <section class="checkout" aria-labelledby="checkout-heading">
       <button type="button" class="clear-button" (click)="closePayment()">
-        Wróć do koszyka
+        Back to Cart
       </button>
-      <h2 id="checkout-heading">Dane do zamówienia</h2>
-      <p>Wpisz swoje dane i wybierz metodę płatności.</p>
+      <h2 id="checkout-heading">Order Details</h2>
+      <p>Enter your details and choose a payment method.</p>
 
       @if (orderConfirmed) {
         <div class="checkout-notice" role="status">
-          <h3>Zamówienie potwierdzone!</h3>
-          <p>Twoje zamówienie zostało potwierdzone.</p>
+          <h3>Order Confirmed!</h3>
+          <p>Your order has been confirmed.</p>
           <p>
-            Wybrana metoda: {{ paymentMethod }}.
-            Kwota testowa: {{ confirmedTotal | currency:'PLN' }}.
+            Payment method: {{ paymentMethod }}.
+            Order total: {{ confirmedTotal | currency:'PLN' }}.
           </p>
         </div>
       } @else {
         <form #checkoutForm="ngForm" (ngSubmit)="submitCheckout(checkoutForm.valid)">
-          <label for="fullName">Imię i nazwisko</label>
+          <label for="fullName">Full Name</label>
           <input
             id="fullName"
             name="fullName"
@@ -165,7 +165,7 @@
             [(ngModel)]="customer.email"
             (ngModelChange)="checkoutChecked = false">
 
-          <label for="street">Ulica i numer</label>
+          <label for="street">Street Address</label>
           <input
             id="street"
             name="street"
@@ -174,7 +174,7 @@
             [(ngModel)]="customer.street"
             (ngModelChange)="checkoutChecked = false">
 
-          <label for="city">Miasto</label>
+          <label for="city">City</label>
           <input
             id="city"
             name="city"
@@ -183,34 +183,34 @@
             [(ngModel)]="customer.city"
             (ngModelChange)="checkoutChecked = false">
 
-          <label for="paymentMethod">Metoda płatności</label>
+          <label for="paymentMethod">Payment Method</label>
           <select
             id="paymentMethod"
             name="paymentMethod"
             [(ngModel)]="paymentMethod"
             (ngModelChange)="checkoutChecked = false">
             <option value="blik">BLIK</option>
-            <option value="card">Karta płatnicza</option>
-            <option value="transfer">Przelew bankowy</option>
+            <option value="card">Credit or Debit Card</option>
+            <option value="transfer">Bank Transfer</option>
           </select>
 
           @if (checkoutForm.submitted && checkoutForm.invalid) {
-            <p class="field-error">Uzupełnij wszystkie pola poprawnie.</p>
+            <p class="field-error">Please complete all fields correctly.</p>
           }
 
-          <p>Do zapłaty: <strong>{{ cartService.totalPrice() | currency:'PLN' }}</strong></p>
+          <p>Amount Due: <strong>{{ cartService.totalPrice() | currency:'USD' }}</strong></p>
 
           <div class="checkout-buttons">
             <button type="submit" class="checkout-button">
-              Potwierdź dane
+              Confirm Details
             </button>
 
             @if (checkoutChecked) {
               <button
                 type="button"
-                class="checkout-button fake-payment-button"
-                (click)="confirmTestOrder(checkoutForm.valid)">
-                Potwierdź zamówienie
+                class="checkout-button confirm-order-button"
+                (click)="confirmOrder(checkoutForm.valid)">
+                Place Order
               </button>
             }
           </div>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { CartComponent } from './cart';
 
 describe('CartComponent', () => {
@@ -8,6 +9,7 @@ describe('CartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CartComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartComponent);
@@ -22,35 +24,35 @@ describe('CartComponent', () => {
   it('shows the empty cart message', () => {
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Twój koszyk jest pusty');
+    expect(fixture.nativeElement.textContent).toContain('Your cart is empty');
   });
 
   it('opens the checkout form for a non-empty cart', () => {
-    component.addDemoProduct(component.demoProducts[0]);
+    component.addProduct(component.productCatalog[0]);
     component.goPayment();
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('form')).not.toBeNull();
-    expect(fixture.nativeElement.textContent).toContain('Dane do zamówienia');
+    expect(fixture.nativeElement.textContent).toContain('Order Details');
   });
 
-  it('shows a fake order confirmation after valid form data is confirmed', () => {
-    component.addDemoProduct(component.demoProducts[0]);
+  it('shows an order confirmation after valid form data is confirmed', () => {
+    component.addProduct(component.productCatalog[0]);
     component.goPayment();
     component.submitCheckout(true);
-    component.confirmTestOrder(true);
+    component.confirmOrder(true);
     fixture.detectChanges();
 
     expect(component.orderConfirmed).toBe(true);
-    expect(component.confirmedTotal).toBe(299.99);
-    expect(fixture.nativeElement.textContent).toContain('Zamówienie potwierdzone!');
+    expect(component.confirmedTotal).toBe(300);
+    expect(fixture.nativeElement.textContent).toContain('Order Confirmed!');
   });
 
   it('does not confirm an invalid form', () => {
-    component.addDemoProduct(component.demoProducts[0]);
+    component.addProduct(component.productCatalog[0]);
     component.goPayment();
     component.submitCheckout(false);
-    component.confirmTestOrder(false);
+    component.confirmOrder(false);
 
     expect(component.orderConfirmed).toBe(false);
   });

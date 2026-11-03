@@ -6,10 +6,9 @@ describe('CartService', () => {
   let service: CartService;
   const product: Product = {
     id: 1,
-    name: 'Test product',
-    description: 'A product for testing',
+    name: 'Mysz gamingowa',
+    description: 'Mysz optyczna 16000 DPI',
     price: 0.1,
-    imageUrl: '',
   };
 
   beforeEach(() => {
