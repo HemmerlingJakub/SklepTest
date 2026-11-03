@@ -1,0 +1,222 @@
+<main class="cart-container">
+
+  <h1>Twój koszyk</h1>
+
+  <div class="demo-products">
+
+    @for (product of demoProducts; track product.id) {
+      <button
+        class="demo-product-button"
+        (click)="addDemoProduct(product)">
+        <span aria-hidden="true">＋</span>
+        {{ product.name }} - {{ product.price | currency:'PLN' }}
+      </button>
+    }
+  </div>
+
+  <div class="cart-layout">
+
+    <section class="cart-products">
+
+      @if (cartService.items().length === 0) {
+        <div class="empty-cart">
+          <span class="empty-cart-icon" aria-hidden="true">🛒</span>
+          <h2>Twój koszyk jest pusty</h2>
+          <p>Dodaj produkty, aby kontynuować zakupy.</p>
+        </div>
+      } @else {
+
+        @for (item of cartService.items(); track item.product.id) {
+          <article class="cart-item">
+
+            <div class="product-info">
+              <div>
+                <h3>{{ item.product.name }}</h3>
+                <p>{{ item.product.description }}</p>
+                <strong>
+                  {{ item.product.price | currency:'PLN' }}
+                </strong>
+              </div>
+            </div>
+
+            <div class="quantity-controls">
+
+              <button
+                class="icon-button"
+                [attr.aria-label]="'Zmniejsz liczbę produktu: ' + item.product.name"
+                (click)="decreaseQuantity(item.product.id, item.quantity)">
+                <span aria-hidden="true">−</span>
+              </button>
+
+              <span aria-label="Liczba sztuk">{{ item.quantity }}</span>
+
+              <button
+                class="icon-button"
+                [attr.aria-label]="'Zwiększ liczbę produktu: ' + item.product.name"
+                (click)="increaseQuantity(item.product.id, item.quantity)">
+                <span aria-hidden="true">＋</span>
+              </button>
+
+            </div>
+
+            <strong>
+              {{ cartService.getLineTotal(item) | currency:'PLN' }}
+            </strong>
+
+            <button
+              class="icon-button remove-button"
+              [attr.aria-label]="'Usuń produkt: ' + item.product.name"
+              (click)="cartService.removeFromCart(item.product.id)">
+              <span aria-hidden="true">×</span>
+            </button>
+
+          </article>
+        }
+
+      }
+
+    </section>
+
+    @if (cartService.items().length > 0) {
+      <aside>
+
+        <section class="summary-card" aria-labelledby="summary-heading">
+
+          <h2 id="summary-heading">Podsumowanie</h2>
+
+          <hr>
+
+          <div class="summary-row">
+            <span>Liczba produktów:</span>
+            <strong>{{ cartService.totalItems() }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Wartość produktów:</span>
+            <strong>
+              {{ cartService.totalPrice() | currency:'PLN' }}
+            </strong>
+          </div>
+
+          <hr>
+
+          <div class="summary-row total">
+            <span>Razem:</span>
+            <strong>
+              {{ cartService.totalPrice() | currency:'PLN' }}
+            </strong>
+          </div>
+
+          <button
+            type="button"
+            class="checkout-button"
+            (click)="goPayment()">
+            Przejdź do płatności
+          </button>
+
+          <button
+            type="button"
+            class="clear-button"
+            (click)="clearCart()">
+            Wyczyść koszyk
+          </button>
+
+        </section>
+
+      </aside>
+    }
+
+  </div>
+
+  @if (checkoutOpen && cartService.items().length > 0) {
+    <section class="checkout" aria-labelledby="checkout-heading">
+      <button type="button" class="clear-button" (click)="closePayment()">
+        Wróć do koszyka
+      </button>
+      <h2 id="checkout-heading">Dane do zamówienia</h2>
+      <p>Wpisz swoje dane i wybierz metodę płatności.</p>
+
+      @if (orderConfirmed) {
+        <div class="checkout-notice" role="status">
+          <h3>Zamówienie potwierdzone!</h3>
+          <p>Twoje zamówienie zostało potwierdzone.</p>
+          <p>
+            Wybrana metoda: {{ paymentMethod }}.
+            Kwota testowa: {{ confirmedTotal | currency:'PLN' }}.
+          </p>
+        </div>
+      } @else {
+        <form #checkoutForm="ngForm" (ngSubmit)="submitCheckout(checkoutForm.valid)">
+          <label for="fullName">Imię i nazwisko</label>
+          <input
+            id="fullName"
+            name="fullName"
+            type="text"
+            required
+            [(ngModel)]="customer.fullName"
+            (ngModelChange)="checkoutChecked = false">
+
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            [(ngModel)]="customer.email"
+            (ngModelChange)="checkoutChecked = false">
+
+          <label for="street">Ulica i numer</label>
+          <input
+            id="street"
+            name="street"
+            type="text"
+            required
+            [(ngModel)]="customer.street"
+            (ngModelChange)="checkoutChecked = false">
+
+          <label for="city">Miasto</label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            required
+            [(ngModel)]="customer.city"
+            (ngModelChange)="checkoutChecked = false">
+
+          <label for="paymentMethod">Metoda płatności</label>
+          <select
+            id="paymentMethod"
+            name="paymentMethod"
+            [(ngModel)]="paymentMethod"
+            (ngModelChange)="checkoutChecked = false">
+            <option value="blik">BLIK</option>
+            <option value="card">Karta płatnicza</option>
+            <option value="transfer">Przelew bankowy</option>
+          </select>
+
+          @if (checkoutForm.submitted && checkoutForm.invalid) {
+            <p class="field-error">Uzupełnij wszystkie pola poprawnie.</p>
+          }
+
+          <p>Do zapłaty: <strong>{{ cartService.totalPrice() | currency:'PLN' }}</strong></p>
+
+          <div class="checkout-buttons">
+            <button type="submit" class="checkout-button">
+              Potwierdź dane
+            </button>
+
+            @if (checkoutChecked) {
+              <button
+                type="button"
+                class="checkout-button fake-payment-button"
+                (click)="confirmTestOrder(checkoutForm.valid)">
+                Potwierdź zamówienie
+              </button>
+            }
+          </div>
+        </form>
+      }
+    </section>
+  }
+
+</main>
