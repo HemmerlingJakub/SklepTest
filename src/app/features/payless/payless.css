@@ -1,0 +1,110 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 48px 20px;
+  box-sizing: border-box;
+  background: #f7f7f5;
+  color: #242927;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Payments {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 28px;
+  box-sizing: border-box;
+  border: 1px solid #dedfdd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(36 41 39 / 6%);
+}
+
+.Payments h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+.Payments p {
+  margin: 0 0 20px;
+  color: #69716d;
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+.Payments form {
+  display: grid;
+  gap: 12px;
+}
+
+.Payments input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 13px;
+  box-sizing: border-box;
+  border: 1px solid #dce3dd;
+  border-radius: 5px;
+  background: #fbfcfa;
+  color: #242927;
+  font: inherit;
+  font-size: .9rem;
+}
+
+.Payments input:focus-visible {
+  border-color: #176b58;
+  outline: 2px solid #176b58;
+  outline-offset: 2px;
+}
+
+.Payments button {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 5px;
+  background: #176b58;
+  color: #fff;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.Payments button:hover:not(:disabled) { background: #105341; }
+.Payments button:focus-visible { outline: 2px solid #176b58; outline-offset: 3px; }
+.Payments button:disabled { background: #aab8b1; cursor: not-allowed; }
+
+.Payments dl {
+  display: grid;
+  grid-template-columns: minmax(120px, .7fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+  padding: 18px;
+  border: 1px solid #e4e8e4;
+  border-radius: 5px;
+  background: #f7f8f6;
+}
+
+.Payments dt { color: #69716d; font-size: .85rem; }
+.Payments dd { margin: 0; color: #25342d; font-size: .9rem; font-weight: 650; overflow-wrap: anywhere; }
+
+.Payments[role="status"] {
+  border-top: 4px solid #176b58;
+}
+
+.Payments[role="status"] h1 { color: #176b58; }
+.Payments[role="status"] h2 { margin: 28px 0 12px; font-size: 1.05rem; }
+.Payments ul { display: grid; gap: 10px; margin: 0; padding: 16px 18px; border-radius: 5px; background: #f7f8f6; }
+.Payments li { color: #43534b; font-size: .9rem; line-height: 1.45; }
+
+@media (max-width: 480px) {
+  :host { padding: 24px 14px; }
+  .Payments { padding: 22px 18px; }
+  .Payments dl { grid-template-columns: 1fr; gap: 6px; padding: 14px; }
+  .Payments dd { margin-bottom: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Payments button { transition: none; }
+}

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../models/product.model';
 
@@ -10,7 +10,7 @@ export const productCatalog: Product[] = [
     id: 1,
     name: 'Mechanical Keyboard',
     description: 'RGB keyboard with red switches',
-    price: 299.997,
+    price: 299.99,
     imageUrl: '/images/keyboard.png'
   },
   {
@@ -73,12 +73,11 @@ export const productCatalog: Product[] = [
 export class CartComponent {
   readonly cartService = inject(CartService);
   readonly cartItemCount = this.cartService.totalItems;
+  private readonly router = inject(Router);
 
   checkoutOpen = false;
   checkoutChecked = false;
-  orderConfirmed = false;
-  confirmedTotal = 0;
-  paymentMethod = 'blik';
+  paymentMethod: 'blik' | 'card' | 'transfer' = 'blik';
   customer = {
     fullName: '',
     email: '',
@@ -112,13 +111,11 @@ export class CartComponent {
 
     this.checkoutOpen = true;
     this.checkoutChecked = false;
-    this.orderConfirmed = false;
   }
 
   closePayment(): void {
     this.checkoutOpen = false;
     this.checkoutChecked = false;
-    this.orderConfirmed = false;
   }
 
   clearCart(): void {
@@ -135,13 +132,14 @@ export class CartComponent {
     this.checkoutChecked = true;
   }
 
-  confirmOrder(isValid: boolean | null): void {
+  continueToPayment(isValid: boolean | null): void {
     if (isValid !== true || !this.checkoutChecked || this.cartService.items().length === 0) {
       this.checkoutChecked = false;
       return;
     }
 
-    this.confirmedTotal = this.cartService.totalPrice();
-    this.orderConfirmed = true;
+    void this.router.navigate(['/payless'], {
+      state: { paymentMethod: this.paymentMethod },
+    });
   }
 }

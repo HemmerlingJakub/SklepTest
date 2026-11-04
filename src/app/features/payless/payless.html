@@ -1,0 +1,106 @@
+@if (paymentConfirmed) {
+    <section class="Payments" role="status">
+        <h1>Payment successful</h1>
+        <p>Thank you for your purchase.</p>
+        <p>Transaction number: {{ transactionId }}</p>
+        <p>Payment method: {{ paymentMethodLabel }}.</p>
+        <p>Amount paid: {{ paidTotal | currency:'USD' }}.</p>
+        <h2>Items purchased</h2>
+        <ul>
+            @for (item of purchasedItems; track item.product.id) {
+                <li>
+                    {{ item.product.name }} × {{ item.quantity }}
+                    — {{ cartService.getLineTotal(item) | currency:'USD' }}
+                </li>
+            }
+        </ul>
+    </section>
+} @else if (paymentMethod === 'blik') {
+    <section class="Payments">
+        <h1>Pay with BLIK</h1>
+        <p>Enter your BLIK code below to complete the payment.</p>
+
+        <form (ngSubmit)="payBlik()">
+            <input
+                type="text"
+                [(ngModel)]="blikCode"
+                name="blikCode"
+                placeholder="Enter BLIK code"
+                required
+                pattern="[0-9]{6}"
+                title="BLIK code must be 6 digits"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                (input)="onBlikInput($event)"/>
+
+            <button type="submit" [disabled]="!blikCode || blikCode.length !== 6">
+                Pay
+            </button>
+        </form>
+    </section>
+} @else if (paymentMethod === 'card') {
+    <section class="Payments">
+        <h1>Pay with Credit Card</h1>
+        <p> Enter your credit card details below to complete the payment.</p>
+        <form (ngSubmit)="payCard()">
+            <input 
+                type="text"
+                [(ngModel)]="cardNumber"
+                name="cardNumber"
+                placeholder="Card number"
+                required
+                pattern="[0-9]{16}"
+                title="Card number must be 16 digits"
+                inputmode="numeric"
+                autocomplete="cc-number"
+                (input)="onCardInput($event)"/>
+            <input
+                type="text"
+                [(ngModel)]="cardExpiry"
+                name="cardExpiry"
+                placeholder="MM/YY"
+                required
+                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})"
+                title="Expiry date must be in MM/YY format"
+                inputmode="numeric"
+                autocomplete="cc-exp"
+                (input)="onCardInput($event)"/>
+            <input
+                type="text"
+                [(ngModel)]="cardCVC"
+                name="cardCVC"
+                placeholder="CVC"
+                required
+                pattern="[0-9]{3}"
+                title="CVC must be 3 digits"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                (input)="onCardInput($event)"/>
+            <input
+                type="text"
+                [(ngModel)]="cardHolder"
+                name="cardHolder"
+                placeholder="Cardholder name"
+                required
+                autocomplete="cc-name"
+                (input)="onCardInput($event)"/>
+            <button type="submit" [disabled]="!cardNumber || !cardExpiry || !cardCVC || !cardHolder">
+                Pay
+            </button>
+        </form>
+    </section>
+} @else if (paymentMethod === 'transfer') {
+    <section class="Payments">
+        <h1>Pay with Bank Transfer</h1>
+        <p>Send the exact amount to the following account:</p>
+        <dl>
+            <dt>Account number</dt>
+            <dd>12 2042 4354 2345 0000 1235</dd>
+            <dt>Transfer title: </dt>
+            <dd>HzF2Gst3d</dd>
+            <dt>Amount</dt>
+            <dd>{{ cartService.totalPrice() | currency:'USD' }}</dd>
+        </dl>
+        <button type="button" (click)="checkTransfer()">Check</button>
+    </section>
+}

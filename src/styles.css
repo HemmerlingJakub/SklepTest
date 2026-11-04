@@ -9,3 +9,9 @@ app-root {
   margin: 0;
   padding: 0;
 }
+
+.snackbar-success {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
