@@ -1,106 +1,185 @@
-@if (paymentConfirmed) {
-    <section class="Payments" role="status">
-        <h1>Payment successful</h1>
-        <p>Thank you for your purchase.</p>
-        <p>Transaction number: {{ transactionId }}</p>
-        <p>Payment method: {{ paymentMethodLabel }}.</p>
-        <p>Amount paid: {{ paidTotal | currency:'USD' }}.</p>
-        <h2>Items purchased</h2>
-        <ul>
-            @for (item of purchasedItems; track item.product.id) {
-                <li>
-                    {{ item.product.name }} × {{ item.quantity }}
-                    — {{ cartService.getLineTotal(item) | currency:'USD' }}
-                </li>
-            }
-        </ul>
-    </section>
-} @else if (paymentMethod === 'blik') {
-    <section class="Payments">
-        <h1>Pay with BLIK</h1>
-        <p>Enter your BLIK code below to complete the payment.</p>
+<main class="Checkout">
+    <header class="Checkout-header">
+        <a class="Checkout-brand" href="/" aria-label="Store home">Store</a>
+    </header>
 
-        <form (ngSubmit)="payBlik()">
-            <input
-                type="text"
-                [(ngModel)]="blikCode"
-                name="blikCode"
-                placeholder="Enter BLIK code"
-                required
-                pattern="[0-9]{6}"
-                title="BLIK code must be 6 digits"
-                inputmode="numeric"
-                autocomplete="one-time-code"
-                (input)="onBlikInput($event)"/>
+    @if (paymentConfirmed) {
+        <section class="Payment-card Payment-success" role="status" aria-labelledby="success-title">
+            <div class="Success-mark" aria-hidden="true">✓</div>
+            <p class="Eyebrow">Order confirmed</p>
+            <h1 id="success-title">Payment successful</h1>
+            <p class="Success-copy">Thank you for your purchase. Your order is being processed.</p>
 
-            <button type="submit" [disabled]="!blikCode || blikCode.length !== 6">
-                Pay
-            </button>
-        </form>
-    </section>
-} @else if (paymentMethod === 'card') {
-    <section class="Payments">
-        <h1>Pay with Credit Card</h1>
-        <p> Enter your credit card details below to complete the payment.</p>
-        <form (ngSubmit)="payCard()">
-            <input 
-                type="text"
-                [(ngModel)]="cardNumber"
-                name="cardNumber"
-                placeholder="Card number"
-                required
-                pattern="[0-9]{16}"
-                title="Card number must be 16 digits"
-                inputmode="numeric"
-                autocomplete="cc-number"
-                (input)="onCardInput($event)"/>
-            <input
-                type="text"
-                [(ngModel)]="cardExpiry"
-                name="cardExpiry"
-                placeholder="MM/YY"
-                required
-                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})"
-                title="Expiry date must be in MM/YY format"
-                inputmode="numeric"
-                autocomplete="cc-exp"
-                (input)="onCardInput($event)"/>
-            <input
-                type="text"
-                [(ngModel)]="cardCVC"
-                name="cardCVC"
-                placeholder="CVC"
-                required
-                pattern="[0-9]{3}"
-                title="CVC must be 3 digits"
-                inputmode="numeric"
-                autocomplete="cc-csc"
-                (input)="onCardInput($event)"/>
-            <input
-                type="text"
-                [(ngModel)]="cardHolder"
-                name="cardHolder"
-                placeholder="Cardholder name"
-                required
-                autocomplete="cc-name"
-                (input)="onCardInput($event)"/>
-            <button type="submit" [disabled]="!cardNumber || !cardExpiry || !cardCVC || !cardHolder">
-                Pay
-            </button>
-        </form>
-    </section>
-} @else if (paymentMethod === 'transfer') {
-    <section class="Payments">
-        <h1>Pay with Bank Transfer</h1>
-        <p>Send the exact amount to the following account:</p>
-        <dl>
-            <dt>Account number</dt>
-            <dd>12 2042 4354 2345 0000 1235</dd>
-            <dt>Transfer title: </dt>
-            <dd>HzF2Gst3d</dd>
-            <dt>Amount</dt>
-            <dd>{{ cartService.totalPrice() | currency:'USD' }}</dd>
-        </dl>
-        <button type="button" (click)="checkTransfer()">Check</button>
-    </section>
-}
+            <dl class="Transaction-details">
+                <dt>Transaction number</dt>
+                <dd>{{ transactionId }}</dd>
+                <dt>Payment method</dt>
+                <dd>{{ paymentMethodLabel }}</dd>
+                <dt>Amount paid</dt>
+                <dd>{{ paidTotal | currency:'USD' }}</dd>
+            </dl>
+
+            <h2>Items purchased</h2>
+            <ul class="Purchased-items">
+                @for (item of purchasedItems; track item.product.id) {
+                    <li>
+                        <span>{{ item.product.name }} <span class="Item-quantity">× {{ item.quantity }}</span></span>
+                        <strong>{{ cartService.getLineTotal(item) | currency:'USD' }}</strong>
+                    </li>
+                }
+            </ul>
+        </section>
+    } @else {
+        <div class="Checkout-intro">
+            <p class="Eyebrow">Checkout</p>
+            <h1>Payment</h1>
+            <p>Choose your payment details to complete your order.</p>
+        </div>
+
+        <div class="Checkout-layout">
+            <section class="Payment-card" aria-labelledby="payment-title">
+                @if (paymentMethod === 'blik') {
+                    <div class="Section-heading">
+                        <h2 id="payment-title">Pay with BLIK</h2>
+                        <p>Enter the 6-digit code from your banking app.</p>
+                    </div>
+
+                    <form (ngSubmit)="payBlik()">
+                        <div class="Form-field">
+                            <label for="blik-code">BLIK code</label>
+                            <input
+                                id="blik-code"
+                                type="text"
+                                [(ngModel)]="blikCode"
+                                name="blikCode"
+                                placeholder="000 000"
+                                required
+                                pattern="[0-9]{6}"
+                                title="BLIK code must be 6 digits"
+                                inputmode="numeric"
+                                autocomplete="one-time-code"
+                                (input)="onBlikInput($event)"/>
+                        </div>
+
+                        <button type="submit" [disabled]="paymentInProgress || !blikCode || blikCode.length !== 6">
+                            {{ paymentInProgress ? 'Processing...' : 'Pay now' }}
+                        </button>
+                    </form>
+                } @else if (paymentMethod === 'card') {
+                    <div class="Section-heading">
+                        <h2 id="payment-title">Pay by card</h2>
+                        <p>Enter the details shown on your credit or debit card.</p>
+                    </div>
+
+                    <form (ngSubmit)="payCard()">
+                        <div class="Form-field">
+                            <label for="card-number">Card number</label>
+                            <input
+                                id="card-number"
+                                type="text"
+                                [(ngModel)]="cardNumber"
+                                name="cardNumber"
+                                placeholder="0000 0000 0000 0000"
+                                required
+                                pattern="[0-9]{16}"
+                                title="Card number must be 16 digits"
+                                inputmode="numeric"
+                                autocomplete="cc-number"
+                                (input)="onCardInput($event)"/>
+                        </div>
+
+                        <div class="Form-row">
+                            <div class="Form-field">
+                                <label for="card-expiry">Expiry date</label>
+                                <input
+                                    id="card-expiry"
+                                    type="text"
+                                    [(ngModel)]="cardExpiry"
+                                    name="cardExpiry"
+                                    placeholder="MM/YY"
+                                    required
+                                    pattern="(0[1-9]|1[0-2])\/?([0-9]{2})"
+                                    title="Expiry date must be in MM/YY format"
+                                    inputmode="numeric"
+                                    autocomplete="cc-exp"
+                                    (input)="onCardInput($event)"/>
+                            </div>
+                            <div class="Form-field">
+                                <label for="card-cvc">Security code</label>
+                                <input
+                                    id="card-cvc"
+                                    type="text"
+                                    [(ngModel)]="cardCVC"
+                                    name="cardCVC"
+                                    placeholder="CVC"
+                                    required
+                                    pattern="[0-9]{3}"
+                                    title="CVC must be 3 digits"
+                                    inputmode="numeric"
+                                    autocomplete="cc-csc"
+                                    (input)="onCardInput($event)"/>
+                            </div>
+                        </div>
+
+                        <div class="Form-field">
+                            <label for="card-holder">Name on card</label>
+                            <input
+                                id="card-holder"
+                                type="text"
+                                [(ngModel)]="cardHolder"
+                                name="cardHolder"
+                                placeholder="Name as shown on card"
+                                required
+                                autocomplete="cc-name"
+                                (input)="onCardInput($event)"/>
+                        </div>
+
+                        <button
+                            type="submit"
+                            [disabled]="paymentInProgress || !cardNumber || !cardExpiry || !cardCVC || !cardHolder">
+                            {{ paymentInProgress ? 'Processing...' : 'Pay now' }}
+                        </button>
+                    </form>
+                } @else {
+                    <div class="Section-heading">
+                        <h2 id="payment-title">Pay by bank transfer</h2>
+                        <p>Use the details below to send your payment.</p>
+                    </div>
+
+                    <dl class="Transfer-details">
+                        <dt>Account number</dt>
+                        <dd>12 2042 4354 2345 0000 1235</dd>
+                        <dt>Transfer reference</dt>
+                        <dd>HzF2Gst3d</dd>
+                        <dt>Amount to transfer</dt>
+                        <dd>{{ cartService.totalPrice() | currency:'USD' }}</dd>
+                    </dl>
+
+                    <button type="button" [disabled]="paymentInProgress" (click)="checkTransfer()">
+                        {{ paymentInProgress ? 'Checking...' : 'I have made the transfer' }}
+                    </button>
+                }
+            </section>
+
+            <aside class="Order-summary" aria-labelledby="summary-title">
+                <h2 id="summary-title">Order summary</h2>
+                <ul>
+                    @for (item of cartService.items(); track item.product.id) {
+                        <li>
+                            <span class="Summary-item-name">
+                                {{ item.product.name }}
+                                <span class="Item-quantity">× {{ item.quantity }}</span>
+                            </span>
+                            <strong>{{ cartService.getLineTotal(item) | currency:'USD' }}</strong>
+                        </li>
+                    }
+                </ul>
+                <div class="Summary-total">
+                    <span>Total</span>
+                    <strong>{{ cartService.totalPrice() | currency:'USD' }}</strong>
+                </div>
+                <p class="Summary-note">Taxes and shipping are included where applicable.</p>
+            </aside>
+        </div>
+    }
+</main>
