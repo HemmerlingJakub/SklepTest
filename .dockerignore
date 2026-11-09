@@ -3,3 +3,5 @@ dist
 .angular
 .git
 .env
+.DS_Store
+npm-debug.log*
