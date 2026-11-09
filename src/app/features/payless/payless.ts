@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
+import { LocalHttpSimulationService } from '../../core/services/local-http-simulation.service';
 import { FormsModule } from '@angular/forms';
 import { CartItem } from '../../models/cart-item.model';
 
@@ -17,9 +18,11 @@ export class Payless {
   cardCVC = '';
   cardHolder = '';
   readonly cartService = inject(CartService);
+  private readonly httpSimulation = inject(LocalHttpSimulationService);
 
   paymentMethod: 'blik' | 'card' | 'transfer' = this.getPaymentMethod();
   paymentConfirmed = false;
+  paymentInProgress = false;
   paidTotal = 0;
   transactionId = '';
   purchasedItems: CartItem[] = [];
@@ -150,13 +153,26 @@ export class Payless {
   }
 
   private confirmPayment(): void {
-    this.transactionId = `PAY-${crypto.randomUUID()}`;
-    this.purchasedItems = this.cartService.items().map(item => ({
-      ...item,
-      product: { ...item.product },
-    }));
-    this.paidTotal = this.cartService.totalPrice();
-    this.cartService.clearCart();
-    this.paymentConfirmed = true;
+    if (this.paymentInProgress) {
+      return;
+    }
+
+    this.paymentInProgress = true;
+    this.httpSimulation.simulate('INCORRECT_PAYWALL').subscribe({
+      next: () => {
+        this.transactionId = `PAY-${crypto.randomUUID()}`;
+        this.purchasedItems = this.cartService.items().map(item => ({
+          ...item,
+          product: { ...item.product },
+        }));
+        this.paidTotal = this.cartService.totalPrice();
+        this.cartService.clearCart();
+        this.paymentConfirmed = true;
+        this.paymentInProgress = false;
+      },
+      error: () => {
+        this.paymentInProgress = false;
+      },
+    });
   }
 }
