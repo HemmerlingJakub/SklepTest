@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -6,7 +6,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CartService } from '../../core/services/cart.service';
 import { LocalHttpSimulationService } from '../../core/services/local-http-simulation.service';
 import { Product } from '../../models/product.model';
-import { productCatalog as products } from '../cart/cart';
+import { productCatalog as products } from '../../core/product';
 
 @Component({
   imports: [
@@ -29,7 +29,31 @@ export class ShopComponent {
 
   readonly cartItemCount = this.cartService.totalItems;
 
-  activeProductId: number | null = null;
+  products = signal<Product[]>(this.productCatalog);
+  searchTerm = signal('')
+
+  filteredProducts = computed(() => {
+    const search = this.searchTerm().toLowerCase().trim();
+
+    if(!search) {
+      return this.products();
+    }
+
+    return this.products().filter(product =>
+      product.name.toLowerCase().includes(search) ||
+      product.category?.toLocaleLowerCase().includes(search) ||
+      product.tags?.some(tag => tag.toLowerCase().includes(search))
+    );
+  });
+
+  onSearch(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm.set(value);
+  }
+
+  clearSearch() : void{
+    this.searchTerm.set('')
+  }
 
   addProduct(product: Product): void {
     this.httpSimulation.simulate('INCORRECT_CART').subscribe({
@@ -46,17 +70,8 @@ export class ShopComponent {
           },
         );
       },
-      // The interceptor displays the error message centrally.
       error: () => {},
     });
   }
 
-  viewDetails(product: Product): void {
-    this.activeProductId =
-      this.activeProductId === product.id ? null : product.id;
-  }
-
-  closeDetails(): void {
-    this.activeProductId = null;
-  }
 }

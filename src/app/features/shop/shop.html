@@ -4,11 +4,31 @@
         <span>Gaming Store</span>
     </a>
 
+    <div class="search-container">
+        <input
+            type="text"
+            placeholder="Search products..."
+            (input)="onSearch($event)"
+            [value]="searchTerm()"
+            aria-label="Search products">
+
+        @if(searchTerm() ){
+            <button
+                type="button"
+                class="clear-btn"
+                (click)="clearSearch()">✕</button>
+        }
+    </div>
+
     <nav aria-label="Main navigation">
         <a class="nav-link" routerLink="/shop" routerLinkActive="active"
             [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Shop</a>
         <a class="nav-link" routerLink="/shop" fragment="Products" routerLinkActive="active"
             [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Products</a>
+        <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+            [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">Contact</a>
+        <a class="nav-link" routerLink="/about-us" routerLinkActive="actvie"
+            [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">About Us</a>
         <a class="nav-cart" routerLink="/cart" routerLinkActive="active"
             [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
             Cart
@@ -28,51 +48,34 @@
     <section class="products-section" id="Products" aria-labelledby="products-heading">
         <div class="catalog-heading">
             <h2 id="products-heading">Products</h2>
-            <p class="catalog-count">{{ productCatalog.length }} products</p>
+            <p class="catalog-count">{{ filteredProducts().length }} products</p>
         </div>
 
         <div class="products-catalog">
-            @for (product of productCatalog; track product.id) {
-                <div class="product-card" [class.is-flipped]="activeProductId === product.id">
-                    <div class="product-card-inner">
-                        <article
-                            class="product-face product-front"
-                            [attr.aria-hidden]="activeProductId === product.id"
-                            [attr.inert]="activeProductId === product.id ? '' : null">
-                            @if (product.imageUrl) {
-                                <div class="product-image-wrap">
-                                    <img
-                                        class="product-image"
-                                        [src]="product.imageUrl"
-                                        [alt]="product.name"
-                                        loading="lazy">
-                                </div>
-                            }
-                            <div class="product-info">
-                                <h3>{{ product.name }}</h3>
-                                <p class="product-description-preview">{{ product.description }}</p>
-                                <p class="product-price">{{ product.price | currency:'USD' }}</p>
-                            </div>
-                            <div class="product-actions">
-                                <button class="add-button" (click)="addProduct(product)">Add to cart</button>
-                                <button class="details-button" (click)="viewDetails(product)" [attr.aria-label]="'Details: ' + product.name">Details</button>
-                            </div>
-                        </article>
-
-                        <article
-                            class="product-face product-back"
-                            [attr.aria-hidden]="activeProductId !== product.id"
-                            [attr.inert]="activeProductId !== product.id ? '' : null">
-                            <h3>{{ product.name }}</h3>
-                            <p class="product-full-description">{{ product.description }}</p>
-                            <p class="product-price">{{ product.price | currency:'USD' }}</p>
-                            <div class="product-actions">
-                                <button class="add-button" (click)="addProduct(product)">Add to cart</button>
-                                <button class="details-button" (click)="closeDetails()">Back</button>
-                            </div>
-                        </article>
+            @for (product of filteredProducts(); track product.id) {
+                <article class="product-card product-face">
+                    @if (product.imageUrl) {
+                        <div class="product-image-wrap">
+                            <img
+                                class="product-image"
+                                [src]="product.imageUrl"
+                                [alt]="product.name"
+                                loading="lazy">
+                        </div>
+                    }
+                    <div class="product-info">
+                        <h3>{{ product.name }}</h3>
+                        <p class="product-description-preview">{{ product.description }}</p>
+                        <p class="product-price">{{ product.price | currency:'USD' }}</p>
                     </div>
-                </div>
+                    <div class="product-actions">
+                        <button class="add-button" (click)="addProduct(product)">Add to cart</button>
+                        <button class="details-button" [routerLink]="['/product', product.id]"
+                            [attr.aria-label]="'Details: ' + product.name">Details</button>
+                    </div>
+                </article>
+            } @empty {
+                <p class="catalog-empty">No products found.</p>
             }
         </div>
     </section>

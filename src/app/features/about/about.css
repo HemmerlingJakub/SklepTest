@@ -1,0 +1,108 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f7f7f5;
+  color: #242927;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menuBoard, .menuBoard nav, .store-brand {
+  display: flex;
+  align-items: center;
+}
+
+.menuBoard {
+  justify-content: space-between;
+  max-width: 1160px;
+  min-height: 68px;
+  margin: auto;
+  padding: 8px 24px;
+  border-bottom: 1px solid #e4e5e2;
+}
+
+.store-brand {
+  gap: 9px;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.store-brand img { width: 56px; height: 48px; object-fit: contain; }
+.menuBoard nav { gap: 24px; }
+.menuBoard a { transition: color 140ms ease; }
+
+.nav-link, .nav-cart {
+  min-height: 40px;
+  color: #555d59;
+  font-size: .88rem;
+  text-decoration: none;
+}
+
+.nav-link:hover, .nav-link:focus-visible, .nav-link.active, .nav-cart:hover { color: #176b58; }
+.menuBoard a:focus-visible, .about-page a:focus-visible { outline: 2px solid #176b58; outline-offset: 3px; }
+
+.about-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 56px 24px 72px;
+}
+
+.about-content h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.about-intro {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: #69716d;
+  font-size: .98rem;
+  line-height: 1.65;
+}
+
+.about-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 40px;
+  padding-top: 26px;
+  border-top: 1px solid #e1e3df;
+}
+
+.about-details h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.about-details p {
+  margin: 10px 0 0;
+  color: #69716d;
+  font-size: .94rem;
+  line-height: 1.65;
+}
+
+.about-details a, .shop-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #176b58;
+  font-size: .92rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.shop-link { margin-top: 32px; }
+.about-details a:hover, .shop-link:hover { text-decoration: underline; }
+
+@media (max-width: 700px) {
+  .menuBoard { align-items: flex-start; flex-direction: column; gap: 8px; padding: 8px 16px; }
+  .menuBoard nav { width: 100%; flex-wrap: wrap; gap: 8px 18px; }
+  .about-page { padding: 38px 18px 52px; }
+  .about-details { grid-template-columns: 1fr; gap: 26px; margin-top: 30px; padding-top: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuBoard a { transition: none; }
+}

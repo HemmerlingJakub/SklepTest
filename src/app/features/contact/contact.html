@@ -1,0 +1,60 @@
+<header class="menuBoard">
+    <a class="store-brand" routerLink="/shop" aria-label="Gaming Store - home">
+        <img src="/images/Logo.png" alt="" class="store-logo">
+        <span>Gaming Store</span>
+    </a>
+
+    <nav aria-label="Main navigation">
+        <a class="nav-link" routerLink="/shop" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Shop</a>
+        <a class="nav-link" routerLink="/shop" fragment="Products" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Products</a>
+        <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+            [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">Contact</a>
+        <a class="nav-link" routerLink="/about-us" routerLinkActive="actvie"
+            [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">About Us</a>
+        <a class="nav-cart" routerLink="/cart" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
+            Cart
+        </a>
+    </nav>
+</header>
+
+<main class="contact-page">
+    <section class="contact-layout" aria-labelledby="contact-heading">
+        <div class="contact-copy">
+            <p class="eyebrow">CONTACT</p>
+            <h1 id="contact-heading">We are here to help!</h1>
+            <p class="contact-description">
+                Let us know about your issue. It’s an honor to support you on your journey in our shop.
+                Use the form and send us a message.
+            </p>
+        </div>
+
+        <div class="contact-card">
+            <h2>Send us a message</h2>
+            <p class="form-intro">Fill in the details below and we’ll be happy to help.</p>
+
+            <form class="support-form" (ngSubmit)="sendMessage()">
+                <div class="form-field">
+                    <label for="contact-name">Name</label>
+                    <input id="contact-name" [(ngModel)]="contact.name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+                </div>
+                <div class="form-field">
+                    <label for="contact-email">Email</label>
+                    <input id="contact-email" [(ngModel)]="contact.email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+                <div class="form-field">
+                    <label for="contact-phone">Phone number <span>(optional)</span></label>
+                    <input id="contact-phone" [(ngModel)]="contact.phone" type="tel" name="phone" placeholder="Your phone number" autocomplete="tel">
+                </div>
+                <div class="form-field">
+                    <label for="contact-message">How can we help?</label>
+                    <textarea id="contact-message" [(ngModel)]="contact.message" name="message" rows="5" placeholder="Tell us a little about your issue" required></textarea>
+                </div>
+
+                <button type="submit">Send message <span aria-hidden="true">→</span></button>
+            </form>
+        </div>
+    </section>
+</main>

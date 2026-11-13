@@ -1,0 +1,42 @@
+<header class="menuBoard">
+  <a class="store-brand" routerLink="/shop" aria-label="Gaming Store - home">
+    <img src="/images/Logo.png" alt="">
+    <span>Gaming Store</span>
+  </a>
+
+  <nav aria-label="Main navigation">
+    <a class="nav-link" routerLink="/shop">Shop</a>
+    <a class="nav-link" routerLink="/shop" fragment="Products">Products</a>
+    <a class="nav-link" routerLink="/contact">Contact</a>
+    <a class="nav-link active" routerLink="/about-us" aria-current="page">About Us</a>
+    <a class="nav-cart" routerLink="/cart">Cart</a>
+  </nav>
+</header>
+
+<main class="about-page">
+  <section class="about-content" aria-labelledby="about-heading">
+    <h1 id="about-heading">About Gaming Store</h1>
+    <p class="about-intro">
+      Gaming Store is an online shop for computer and gaming accessories. We keep things simple:
+      a selection of useful products, clear descriptions, and straightforward prices.
+    </p>
+
+    <div class="about-details">
+      <section aria-labelledby="catalog-heading">
+        <h2 id="catalog-heading">What you’ll find here</h2>
+        <p>
+          Our catalog includes keyboards, mice, headphones, monitors, webcams, and other
+          accessories for your setup at home or at work.
+        </p>
+      </section>
+
+      <section aria-labelledby="questions-heading">
+        <h2 id="questions-heading">Questions?</h2>
+        <p>If you need help or want to ask us something, send a message through our contact page.</p>
+        <a routerLink="/contact">Go to contact page</a>
+      </section>
+    </div>
+
+    <a class="shop-link" routerLink="/shop">Browse the shop</a>
+  </section>
+</main>

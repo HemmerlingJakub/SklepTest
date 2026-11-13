@@ -1,0 +1,45 @@
+<main class="product-page">
+  @if (product(); as product) {
+    <a class="back-link" routerLink="/shop">← Back to shop</a>
+
+    <section class="product-details" aria-labelledby="product-name">
+      <div class="product-image-panel">
+        @if (product.imageUrl) {
+          <img class="product-image" [src]="product.imageUrl" [alt]="product.name">
+        } @else {
+          <div class="image-placeholder" aria-label="No product image available">No image available</div>
+        }
+      </div>
+
+      <div class="product-info">
+        @if (product.category) {
+          <p class="product-category">{{ product.category }}</p>
+        }
+        <h1 id="product-name">{{ product.name }}</h1>
+        <p class="product-description">{{ product.description }}</p>
+        @if (product.longDescription) {
+          <p class="product-long-description">{{ product.longDescription }}</p>
+        }
+
+        @if (product.tags?.length) {
+          <ul class="product-tags" aria-label="Product tags">
+            @for (tag of product.tags; track tag) {
+              <li>{{ tag }}</li>
+            }
+          </ul>
+        }
+
+        <p class="product-price">{{ product.price | currency:'USD' }}</p>
+        <button class="add-button" type="button" (click)="addToCart(product)">
+          Add to cart
+        </button>
+      </div>
+    </section>
+  } @else {
+    <section class="product-not-found">
+      <h1>Product not found</h1>
+      <p>This product may no longer be available.</p>
+      <a class="back-link" routerLink="/shop">Back to shop</a>
+    </section>
+  }
+</main>
