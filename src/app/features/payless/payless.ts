@@ -5,6 +5,7 @@ import { LocalHttpSimulationService } from '../../core/services/local-http-simul
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CartItem } from '../../models/cart-item.model';
+import { PdfGeneratorService } from '../../core/services/pdf-generator';
 
 @Component({
   imports: [CurrencyPipe, FormsModule, RouterModule],
@@ -20,6 +21,15 @@ export class Payless {
   cardHolder = '';
   readonly cartService = inject(CartService);
   private readonly httpSimulation = inject(LocalHttpSimulationService);
+  private readonly pdfService = inject(PdfGeneratorService);
+  private readonly checkoutCustomer = history.state?.checkoutCustomer as
+    | {
+        fullName?: string;
+        email?: string;
+        street?: string;
+        city?: string;
+      }
+    | undefined;
 
   paymentMethod: 'blik' | 'card' | 'transfer' = this.getPaymentMethod();
   paymentConfirmed = false;
@@ -28,6 +38,34 @@ export class Payless {
   transactionId = '';
   purchasedItems: CartItem[] = [];
 
+  downloadPdf(): void {
+    if (!this.paymentConfirmed || this.purchasedItems.length === 0) {
+      return;
+    }
+
+    const clientName =
+      this.checkoutCustomer?.fullName?.trim() ||
+      this.cardHolder.trim() ||
+      'Klient';
+
+    this.pdfService.generateInvoice({
+      clientName,
+      email: this.checkoutCustomer?.email?.trim() || '',
+      deliveryAddress: [
+        this.checkoutCustomer?.street?.trim(),
+        this.checkoutCustomer?.city?.trim(),
+      ].filter((part): part is string => Boolean(part)).join(', '),
+      transactionId: this.transactionId,
+      paymentMethod: this.paymentMethodLabel,
+      paidTotal: this.paidTotal,
+      items: this.purchasedItems.map(item => ({
+        name: item.quantity > 1
+          ? `${item.product.name} (x${item.quantity})`
+          : item.product.name,
+        price: this.cartService.getLineTotal(item),
+      })),
+    });
+  }
   get paymentMethodLabel(): string {
     switch (this.paymentMethod) {
       case 'blik':

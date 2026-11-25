@@ -73,7 +73,15 @@ export class CartComponent {
     }
 
     void this.router.navigate(['/payless'], {
-      state: { paymentMethod: this.paymentMethod },
+      state: {
+        paymentMethod: this.paymentMethod,
+        checkoutCustomer: {
+          fullName: this.customer.fullName,
+          email: this.customer.email,
+          street: this.customer.street,
+          city: this.customer.city,
+        },
+      },
     });
   }
 }

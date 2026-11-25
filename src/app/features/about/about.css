@@ -5,7 +5,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.menuBoard, .menuBoard nav, .store-brand {
+.menuBoard, .menuBoard nav, .store-brand, .nav-link, .nav-cart {
   display: flex;
   align-items: center;
 }
@@ -39,7 +39,22 @@
 }
 
 .nav-link:hover, .nav-link:focus-visible, .nav-link.active, .nav-cart:hover { color: #176b58; }
-.menuBoard a:focus-visible, .about-page a:focus-visible { outline: 2px solid #176b58; outline-offset: 3px; }
+
+.nav-cart { gap: 7px; }
+.menuBoard a:focus-visible { outline: 2px solid #176b58; outline-offset: 3px; }
+
+.contact-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 48px;
+}
 
 .about-page {
   max-width: 960px;
