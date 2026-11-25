@@ -3,10 +3,11 @@ import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { LocalHttpSimulationService } from '../../core/services/local-http-simulation.service';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CartItem } from '../../models/cart-item.model';
 
 @Component({
-  imports: [CurrencyPipe, FormsModule],
+  imports: [CurrencyPipe, FormsModule, RouterModule],
   selector: 'app-payless',
   styleUrl: './payless.css',
   templateUrl: './payless.html',
@@ -45,7 +46,7 @@ export class Payless {
       return method;
     }
 
-    return 'blik';
+    return 'card';
   }
 
   onBlikInput(event: Event): void {

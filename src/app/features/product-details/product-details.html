@@ -1,3 +1,23 @@
+<header class="menuBoard">
+  <a class="store-brand" routerLink="/shop" aria-label="Gaming Store - home">
+    <img src="/images/Logo.png" alt="" class="store-logo">
+    <span>Gaming Store</span>
+  </a>
+
+  <nav aria-label="Main navigation">
+    <a class="nav-link" routerLink="/shop" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Shop</a>
+    <a class="nav-link" routerLink="/shop" fragment="Products" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored' }">Products</a>
+    <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+      [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">Contact</a>
+    <a class="nav-link" routerLink="/about-us" routerLinkActive="active"
+      [routerLinkActiveOptions]="{paths: 'exact', queryParams: 'ignored', fragment: 'exact', matrixParams: 'ignored'}">About Us</a>
+    <a class="nav-cart" routerLink="/cart" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">Cart</a>
+  </nav>
+</header>
+
 <main class="product-page">
   @if (product(); as product) {
     <a class="back-link" routerLink="/shop">← Back to shop</a>

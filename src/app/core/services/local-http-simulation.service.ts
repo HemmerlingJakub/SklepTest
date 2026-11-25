@@ -9,8 +9,12 @@ export class LocalHttpSimulationService {
   private readonly http = inject(HttpClient);
 
   simulate(flag: ErrorFlag): Observable<void> {
-    const endpoint = flag === 'INCORRECT_CART' ? 'cart' : 'payment';
-
+    const endpoint = flag === 'INCORRECT_CART' 
+    ? 'cart' 
+    : flag === 'INCORRECT_CONTACT' 
+    ? 'contact' 
+    : 'payment';
+    
     return this.http.post<void>(`/__local-simulation/${endpoint}`, null, {
       context: new HttpContext().set(ERROR_SIMULATION_FLAG, flag),
     });

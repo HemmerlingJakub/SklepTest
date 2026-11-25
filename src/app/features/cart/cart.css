@@ -1,7 +1,5 @@
 :host {
   display: block;
-  min-height: 100vh;
-  padding-bottom: 48px;
   background: #f7f7f5;
   color: #242927;
   font-family: Arial, Helvetica, sans-serif;
@@ -14,7 +12,6 @@
 
 .menuBoard {
   justify-content: space-between;
-  gap: 20px;
   max-width: 1160px;
   min-height: 68px;
   margin: auto;
@@ -23,7 +20,7 @@
 }
 
 .store-brand {
-  gap: 10px;
+  gap: 9px;
   color: inherit;
   font-size: 1rem;
   font-weight: 700;
@@ -35,19 +32,16 @@
 .menuBoard a { transition: color 160ms ease, background 160ms ease; }
 
 .nav-link, .nav-cart {
-  justify-content: center;
-  min-height: 42px;
+  min-height: 40px;
   color: #555d59;
   font-size: .88rem;
-  font-weight: 650;
   text-decoration: none;
 }
 
 .nav-link:hover, .nav-link:focus-visible, .nav-link.active { color: #176b58; }
 
 .nav-cart {
-  gap: 8px;
-  padding: 0;
+  gap: 7px;
   color: #555d59;
 }
 
@@ -212,11 +206,11 @@
 .field-error { margin: 4px 0; color: #b34438; font-size: .83rem; }
 
 @media (max-width: 760px) {
-  .menuBoard { min-height: 60px; padding: 8px 14px; }
-  .store-brand { gap: 6px; font-size: .82rem; }
-  .store-brand img { width: 30px; height: 30px; }
-  .menuBoard nav { gap: 14px; }
-  .nav-link, .nav-cart { font-size: .75rem; }
+  .menuBoard { min-height: 60px; padding: 8px 14px; flex-wrap: wrap; }
+  .store-brand { gap: 6px; font-size: .86rem; }
+  .store-brand img { width: 44px; height: 40px; }
+  .menuBoard nav { gap: 14px; flex-wrap: wrap; }
+  .nav-link, .nav-cart { font-size: .8rem; }
   .cart-container { margin: 32px auto; padding: 0 16px; }
   .page-heading { align-items: start; flex-direction: column; gap: 12px; margin-bottom: 22px; }
   .cart-layout { grid-template-columns: 1fr; }

@@ -17,7 +17,7 @@ export class CartComponent {
 
   checkoutOpen = false;
   checkoutChecked = false;
-  paymentMethod: 'blik' | 'card' | 'transfer' = 'blik';
+  paymentMethod: 'blik' | 'card' | 'transfer' = 'card';
   customer = {
     fullName: '',
     email: '',

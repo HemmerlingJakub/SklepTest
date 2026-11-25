@@ -30,20 +30,39 @@ export class ShopComponent {
   readonly cartItemCount = this.cartService.totalItems;
 
   products = signal<Product[]>(this.productCatalog);
-  searchTerm = signal('')
+  searchTerm = signal('');
+  sortOption = signal<'default' | 'price-asc' | 'price-desc'>('default');
+  selectedTag = signal('all');
+
+  availableTags = computed(() => {
+    const tags = this.products().flatMap(product => product.tags ?? []);
+    return [...new Set(tags)].sort((a, b) => a.localeCompare(b));
+  });
 
   filteredProducts = computed(() => {
     const search = this.searchTerm().toLowerCase().trim();
+    const selectedTag = this.selectedTag();
 
-    if(!search) {
-      return this.products();
+    const filtered = this.products().filter(product => {
+      const matchesSearch = !search ||
+        product.name.toLowerCase().includes(search) ||
+        product.category?.toLowerCase().includes(search) ||
+        product.tags?.some(tag => tag.toLowerCase().includes(search));
+      const matchesTag = selectedTag === 'all' ||
+        product.tags?.some(tag => tag === selectedTag);
+
+      return matchesSearch && matchesTag;
+    });
+
+    const sortOption = this.sortOption();
+    if (sortOption === 'price-asc') {
+      return [...filtered].sort((a, b) => a.price - b.price);
+    }
+    if (sortOption === 'price-desc') {
+      return [...filtered].sort((a, b) => b.price - a.price);
     }
 
-    return this.products().filter(product =>
-      product.name.toLowerCase().includes(search) ||
-      product.category?.toLocaleLowerCase().includes(search) ||
-      product.tags?.some(tag => tag.toLowerCase().includes(search))
-    );
+    return filtered;
   });
 
   onSearch(event: Event) {
@@ -53,6 +72,21 @@ export class ShopComponent {
 
   clearSearch() : void{
     this.searchTerm.set('')
+  }
+
+  onSortChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.sortOption.set(value as 'default' | 'price-asc' | 'price-desc');
+  }
+
+  selectTag(tag: string): void {
+    this.selectedTag.set(tag);
+  }
+
+  clearFilters(): void {
+    this.searchTerm.set('');
+    this.sortOption.set('default');
+    this.selectedTag.set('all');
   }
 
   addProduct(product: Product): void {

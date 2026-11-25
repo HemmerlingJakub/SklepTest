@@ -1,0 +1,103 @@
+:host {
+  display: block;
+  background: #f7f7f5;
+  color: #242927;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menuBoard,
+.menuBoard nav,
+.store-brand {
+  display: flex;
+  align-items: center;
+}
+
+.menuBoard {
+  max-width: 1160px;
+  min-height: 68px;
+  justify-content: space-between;
+  margin: auto;
+  padding: 8px 24px;
+  border-bottom: 1px solid #e4e5e2;
+}
+
+.store-brand {
+  gap: 9px;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.store-brand img { width: 56px; height: 48px; object-fit: contain; }
+.menuBoard nav { gap: 22px; }
+
+.nav-link {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  color: #555d59;
+  font-size: .88rem;
+  text-decoration: none;
+}
+
+.nav-link:hover { color: #176b58; }
+
+.menuBoard a:focus-visible,
+.error-actions a:focus-visible {
+  outline: 2px solid #176b58;
+  outline-offset: 3px;
+}
+
+.error-page {
+  display: grid;
+  min-height: 60vh;
+  place-items: center;
+  padding: 40px 24px;
+}
+
+.error-card {
+  display: flex;
+  width: min(100%, 850px);
+  align-items: center;
+  gap: 48px;
+  box-sizing: border-box;
+  padding: 48px;
+  border: 1px solid #e4e5e2;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.error-code { flex: 0 0 auto; color: #176b58; text-align: center; }
+.error-code > span:first-child { font-size: clamp(5rem, 12vw, 7rem); font-weight: 700; letter-spacing: -.08em; line-height: 1; }
+.error-code-label, .eyebrow { color: #69716d; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }
+.error-code-label { display: block; margin-top: 10px; }
+.eyebrow { margin: 0 0 10px; color: #176b58; }
+
+.error-copy h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.15;
+}
+
+.error-description { color: #69716d; line-height: 1.65; }
+.error-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+
+.error-actions a {
+  padding: 12px 16px;
+  border: 1px solid #176b58;
+  border-radius: 6px;
+  color: #176b58;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.error-actions .primary-action { background: #176b58; color: #fff; }
+.error-actions a:hover { background: #edf5f0; color: #105341; }
+.error-actions .primary-action:hover { background: #105341; color: #fff; }
+
+@media (max-width: 650px) {
+  .menuBoard { align-items: flex-start; flex-direction: column; gap: 8px; padding: 8px 14px; }
+  .store-brand img { width: 44px; height: 40px; }
+  .menuBoard nav { flex-wrap: wrap; gap: 8px 16px; }
+  .error-card { align-items: flex-start; flex-direction: column; gap: 24px; padding: 28px; }
+}

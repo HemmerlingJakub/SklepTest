@@ -5,9 +5,109 @@ body {
 }
 
 app-root {
-  display: block;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   margin: 0;
   padding: 0;
+}
+
+app-root > router-outlet {
+  display: none;
+}
+
+app-root > router-outlet + * {
+  flex: 1 0 auto;
+}
+
+.app-footer {
+  margin-top: auto;
+  border-top: 1px solid #dfe2de;
+  background: #eef1ed;
+  color: #242927;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-footer-inner {
+  display: flex;
+  max-width: 1112px;
+  min-height: 112px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-footer-brand {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 9px;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-footer-brand img {
+  width: 56px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.app-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.app-footer-action {
+  display: flex;
+  min-width: 150px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.app-footer-action span {
+  color: #737b77;
+  font-size: .78rem;
+}
+
+.app-footer-action a {
+  width: fit-content;
+  color: #176b58;
+  font-size: .92rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.app-footer-action a:hover {
+  color: #105341;
+  text-decoration: underline;
+}
+
+.app-footer-brand:focus-visible,
+.app-footer-action a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid #176b58;
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .app-footer { margin-top: 48px; }
+  .app-footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 16px;
+  }
+  .app-footer-brand { gap: 6px; font-size: .86rem; }
+  .app-footer-brand img { width: 44px; height: 40px; }
+  .app-footer-links { width: 100%; align-items: flex-start; gap: 16px; }
+  .app-footer-action { min-width: 0; flex: 1; }
 }
 
 .snackbar-success {

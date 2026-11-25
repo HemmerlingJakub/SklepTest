@@ -5,6 +5,8 @@ import { ShopComponent } from './features/shop/shop';
 import { Contact } from './features/contact/contact';
 import { ProductDetails } from './features/product-details/product-details';
 import { About } from './features/about/about';
+import { Regulations } from './features/regulations/regulations';
+import { BadRequestComponent } from './features/bad-request-component/bad-request-component';
 
 export const routes: Routes = [
   {
@@ -28,6 +30,10 @@ export const routes: Routes = [
     component: Payless
   },
   {
+    path: 'regulations',
+    component: Regulations
+  },
+  {
     path: 'contact',
     component: Contact
   },
@@ -35,6 +41,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'shop',
     pathMatch: 'full'
+  },
+  {
+    path: '400',
+    component: BadRequestComponent
   },
   {
     path: '**',

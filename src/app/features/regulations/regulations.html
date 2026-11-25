@@ -1,0 +1,104 @@
+<header class="menuBoard">
+  <a routerLink="/shop" class="store-brand" aria-label="Gaming Store - home">
+    <img src="/images/Logo.png" class="store-logo" alt="" fetchpriority="high" decoding="sync">
+    <span>Gaming Store</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a routerLink="/shop" class="nav-link">Shop</a>
+    <a routerLink="/shop" fragment="Products" class="nav-link">Products</a>
+    <a routerLink="/contact" class="nav-link">Contact</a>
+    <a routerLink="/about-us" class="nav-link">About us</a>
+    <a routerLink="/cart" class="nav-link">Cart</a>
+  </nav>
+</header>
+
+<main class="regulations-page">
+  <section class="page-heading" aria-labelledby="regulations-title">
+    <p class="eyebrow">GAMING STORE · TERMS</p>
+    <h1 id="regulations-title">Terms and Conditions</h1>
+    <p>
+      These sample Terms and Conditions describe a fictional online shop. The business,
+      contact details, and commercial terms below are invented for this project.
+    </p>
+  </section>
+
+  <div class="regulations-layout">
+    <nav class="regulations-index" aria-label="Regulations contents">
+      <h2>Terms and Conditions</h2>
+      <a routerLink="/shop">Using the store</a>
+      <a (click)="SkipTo()">Products and prices</a>
+      <a routerLink="/cart">Orders and payments</a>
+      <a routerLink="/About-us">Personal information</a>
+      <a routerLink="/contact">Contact</a>
+    </nav>
+
+    <article class="terms-content">
+      <section id="using-the-store" class="terms-section" aria-labelledby="using-title">
+        <span class="section-number">01</span>
+        <h2 id="using-title">Seller and scope</h2>
+        <p>
+          The fictional seller is Gaming Store Demo, with an invented address at 1 Example
+          Street, 00-000 Testowo, Poland. It is not a registered company and has no real
+          registration or tax number. For this sample, contact customer support at
+          support@gaming-store.example.
+        </p>
+      </section>
+
+      <section id="products-and-prices" class="terms-section" aria-labelledby="products-title">
+        <span class="section-number">02</span>
+        <h2 id="products-title">Products and prices</h2>
+        <p>
+          Product pages describe the main characteristics of each item. Prices are shown in
+          US dollars. Any applicable taxes, delivery charges, or other additional costs are
+          displayed before you submit an order. Products are subject to availability.
+        </p>
+      </section>
+
+      <section id="orders-and-payments" class="terms-section" aria-labelledby="orders-title">
+        <span class="section-number">03</span>
+        <h2 id="orders-title">Orders and payments</h2>
+        <p>
+          To place an order, add products to your cart, provide the requested information, choose
+          a delivery and payment method, and submit the order. You can review and correct your
+          details before submission. The fictional sales contract is concluded when an order
+          confirmation is sent to your email address. Sample payment methods are card, BLIK,
+          and bank transfer.
+        </p>
+      </section>
+
+      <section id="delivery-and-returns" class="terms-section" aria-labelledby="delivery-title">
+        <span class="section-number">04</span>
+        <h2 id="delivery-title">Delivery, withdrawal, and complaints</h2>
+        <p>
+          For this example, orders are delivered within Poland by courier or parcel locker,
+          usually within 2–5 business days. Delivery costs are shown at checkout. Consumers may
+          withdraw from a distance purchase within 14 days of receiving the goods, subject to
+          statutory exceptions. Return requests and complaints may be sent to
+          support@gaming-store.example. Mandatory consumer rights are not limited.
+        </p>
+      </section>
+
+      <section id="privacy" class="terms-section" aria-labelledby="privacy-title">
+        <span class="section-number">05</span>
+        <h2 id="privacy-title">Personal data</h2>
+        <p>
+          In this fictional example, order and contact details are used to handle purchases and
+          customer enquiries. Necessary details may be shared with payment and delivery
+          providers, and order records are kept for the periods required by law. This sample
+          description does not represent the practices of a real business.
+        </p>
+      </section>
+
+      <section id="contact" class="terms-section" aria-labelledby="contact-title">
+        <span class="section-number">06</span>
+        <h2 id="contact-title">Contact and final provisions</h2>
+        <p>
+          For this example, customer support is available at support@gaming-store.example,
+          Monday to Friday, 9:00–17:00 CET. These sample Terms are governed by Polish law, while
+          mandatory consumer protections applicable to the customer remain unaffected.
+        </p>
+        <a class="contact-link" routerLink="/contact">Go to contact page <span aria-hidden="true">→</span></a>
+      </section>
+    </article>
+  </div>
+</main>

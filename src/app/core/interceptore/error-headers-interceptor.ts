@@ -70,5 +70,8 @@ function getErrorMessage(headers: HttpHeaders): string | null {
   if (headers.get('INCORRECT_PAYWALL') === '1') {
     messages.push('An error occurred while integrating payments.');
   }
+  if (headers.get('INCORRECT_CONTACT') === '1') {
+    messages.push('An error occurred while sending your message.');
+  }
   return messages.length ? messages.join(' ') : null;
 }

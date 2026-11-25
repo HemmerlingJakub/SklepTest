@@ -1,6 +1,5 @@
 :host {
   display: block;
-  min-height: 100vh;
   padding: 0 24px 64px;
   box-sizing: border-box;
   background: #f7f7f5;
@@ -13,20 +12,52 @@
   margin: 0 auto;
 }
 
-.Checkout-header {
+.menuBoard, .menuBoard nav, .store-brand, .nav-link, .nav-cart {
   display: flex;
-  min-height: 76px;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #dedfdd;
 }
 
-.Checkout-brand {
-  color: #242927;
-  font-size: 1.15rem;
-  font-weight: 750;
-  letter-spacing: -.04em;
+.menuBoard {
+  justify-content: space-between;
+  max-width: 1160px;
+  min-height: 68px;
+  margin: 0 auto;
+  padding: 8px 24px;
+  border-bottom: 1px solid #e4e5e2;
+  box-sizing: border-box;
+}
+
+.store-brand {
+  gap: 9px;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 700;
   text-decoration: none;
+}
+
+.store-brand img { width: 56px; height: 48px; object-fit: contain; }
+.menuBoard nav { gap: 24px; }
+.menuBoard a { transition: color 140ms ease; }
+
+.nav-link, .nav-cart {
+  min-height: 40px;
+  color: #555d59;
+  font-size: .88rem;
+  text-decoration: none;
+}
+
+.nav-link:hover, .nav-link:focus-visible, .nav-link.active,
+.nav-cart:hover, .nav-cart:focus-visible, .nav-cart.active { color: #176b58; }
+
+.nav-cart { gap: 7px; }
+.menuBoard a:focus-visible { outline: 2px solid #176b58; outline-offset: 3px; }
+
+@media (max-width: 600px) {
+  .menuBoard { min-height: 60px; align-items: flex-start; flex-direction: column; gap: 8px; padding: 8px 14px; }
+  .store-brand { gap: 6px; font-size: .86rem; }
+  .store-brand img { width: 44px; height: 40px; }
+  .menuBoard nav { width: 100%; flex-wrap: wrap; gap: 14px; }
+  .nav-link, .nav-cart { font-size: .8rem; }
 }
 
 .Checkout-security {
