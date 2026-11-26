@@ -127,7 +127,7 @@ src/app/core/interceptore/error-simulation.config.ts
 | `INCORRECT_CART` | `0` | dodawanie produktu do koszyka |
 | `INCORRECT_PAYWALL` | `0` | obsługa płatności |
 | `INCORRECT_CONTACT` | `0` | wysłanie formularza kontaktowego |
-| `INCORRECT_PDF_GENERATOR` | `1` | generowanie faktury PDF |
+| `INCORRECT_PDF_GENERATOR` | `0` | generowanie faktury PDF |
 | `LOADING_PAGE` | `0` | błędny stan początkowego ładowania strony |
 
 Wartość `1` powoduje zwrócenie odpowiedzi HTTP `400 Bad Request`, a wartość `0` - odpowiedzi `200 OK`. Po zmianie flagi aplikacja automatycznie używa nowego ustawienia bez potrzeby zmian w komponentach.
