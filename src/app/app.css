@@ -1,0 +1,24 @@
+.Error-page {
+  display: flex;
+  min-height: 100vh;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  background: #f7f7f5;
+  color: #242927;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Error-page h1 {
+  margin: 0;
+  color: #b54735;
+  font-size: 2rem;
+}
+
+.Error-page p {
+  margin: 8px 0 0;
+  color: #69716d;
+  font-size: 1rem;
+}

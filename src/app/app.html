@@ -1,25 +1,32 @@
-<router-outlet></router-outlet>
+@if(Loading === 0){
+  <router-outlet></router-outlet>
 
-<footer class="app-footer">
-  <div class="app-footer-inner">
-    <a class="app-footer-brand" routerLink="/shop" aria-label="Gaming Store - home">
-      <img src="/images/Logo.png" alt="">
-      <span>Gaming Store</span>
-    </a>
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <a class="app-footer-brand" routerLink="/shop" aria-label="Gaming Store - home">
+        <img src="/images/Logo.png" alt="">
+        <span>Gaming Store</span>
+      </a>
 
-    <nav class="app-footer-links" aria-label="Footer navigation">
-      <div class="app-footer-action">
-        <span>Need help?</span>
-        <a routerLink="/contact">Contact us</a>
-      </div>
-      <div class="app-footer-action">
-        <span>Want to know more?</span>
-        <a routerLink="/about-us">About us</a>
-      </div>
-      <div class="app-footer-action">
-        <span>Our shop regulations</span>
-        <a routerLink="/regulations">Regulations</a>
-      </div>
-    </nav>
-  </div>
-</footer>
+      <nav class="app-footer-links" aria-label="Footer navigation">
+        <div class="app-footer-action">
+          <span>Need help?</span>
+          <a routerLink="/contact">Contact us</a>
+        </div>
+        <div class="app-footer-action">
+          <span>Want to know more?</span>
+          <a routerLink="/about-us">About us</a>
+        </div>
+        <div class="app-footer-action">
+          <span>Our shop regulations</span>
+          <a routerLink="/regulations">Regulations</a>
+        </div>
+      </nav>
+    </div>
+  </footer>
+}@else if (Loading === 1) {
+  <main class="Error-page" role="alert" aria-labelledby="error-title">
+    <h1 id="error-title">Error 400</h1>
+    <p>Bad Request</p>
+  </main>
+}

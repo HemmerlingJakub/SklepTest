@@ -73,5 +73,8 @@ function getErrorMessage(headers: HttpHeaders): string | null {
   if (headers.get('INCORRECT_CONTACT') === '1') {
     messages.push('An error occurred while sending your message.');
   }
+  if (headers.get('INCORRECT_PDF_GENERATOR') === '1'){
+    messages.push('An error occured while generating your pdf File')
+  }
   return messages.length ? messages.join(' ') : null;
 }

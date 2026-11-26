@@ -43,29 +43,61 @@ export class Payless {
       return;
     }
 
-    const clientName =
+    const clientName = 
       this.checkoutCustomer?.fullName?.trim() ||
       this.cardHolder.trim() ||
       'Klient';
 
-    this.pdfService.generateInvoice({
-      clientName,
-      email: this.checkoutCustomer?.email?.trim() || '',
-      deliveryAddress: [
-        this.checkoutCustomer?.street?.trim(),
-        this.checkoutCustomer?.city?.trim(),
-      ].filter((part): part is string => Boolean(part)).join(', '),
-      transactionId: this.transactionId,
-      paymentMethod: this.paymentMethodLabel,
-      paidTotal: this.paidTotal,
-      items: this.purchasedItems.map(item => ({
-        name: item.quantity > 1
-          ? `${item.product.name} (x${item.quantity})`
-          : item.product.name,
-        price: this.cartService.getLineTotal(item),
-      })),
-    });
+
+    this.httpSimulation.simulate('INCORRECT_PDF_GENERATOR').subscribe({
+      next: () => {
+        this.pdfService.generateInvoice({
+          clientName,
+          email: this.checkoutCustomer?.email?.trim() || '',
+          deliveryAddress: [
+            this.checkoutCustomer?.street?.trim(),
+            this.checkoutCustomer?.city?.trim(),
+          ].filter((part): part is string => Boolean(part)).join(', '),
+          transactionId: this.transactionId,
+          paymentMethod: this.paymentMethodLabel,
+          paidTotal: this.paidTotal,
+          items: this.purchasedItems.map(item => ({
+            name: item.quantity > 1
+              ? `${item.product.name} (x${item.quantity})`
+              : item.product.name,
+            price: this.cartService.getLineTotal(item),
+          })),
+        });
+      },
+
+      error: () => {
+
+      }
+    })
+
+
+
+    // this.pdfService.generateInvoice({
+    //   clientName,
+    //   email: this.checkoutCustomer?.email?.trim() || '',
+    //   deliveryAddress: [
+    //     this.checkoutCustomer?.street?.trim(),
+    //     this.checkoutCustomer?.city?.trim(),
+    //   ].filter((part): part is string => Boolean(part)).join(', '),
+    //   transactionId: this.transactionId,
+    //   paymentMethod: this.paymentMethodLabel,
+    //   paidTotal: this.paidTotal,
+    //   items: this.purchasedItems.map(item => ({
+    //     name: item.quantity > 1
+    //       ? `${item.product.name} (x${item.quantity})`
+    //       : item.product.name,
+    //     price: this.cartService.getLineTotal(item),
+    //   })),
+    // });
   }
+
+
+
   get paymentMethodLabel(): string {
     switch (this.paymentMethod) {
       case 'blik':

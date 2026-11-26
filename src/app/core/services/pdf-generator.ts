@@ -26,8 +26,8 @@ export class PdfGeneratorService {
 
     const tableBody = [
       [
-        { text: 'Produkt / usługa', bold: true, color: '#FFFFFF' },
-        { text: 'Cena', bold: true, alignment: 'right' as const, color: '#FFFFFF' },
+        { text: 'Product / service', bold: true, color: '#FFFFFF' },
+        { text: 'Price', bold: true, alignment: 'right' as const, color: '#FFFFFF' },
       ],
       ...data.items.map(item => [
         item.name,
@@ -39,25 +39,24 @@ export class PdfGeneratorService {
       pageSize: 'A4',
       pageMargins: [48, 48, 48, 48],
       info: {
-        title: `Potwierdzenie zamówienia ${data.transactionId}`,
+        title: `Order confirmation ${data.transactionId}`,
         author: 'Gaming Store',
-        subject: 'Potwierdzenie płatności',
+        subject: 'Payment confirmation',
       },
       content: [
         {
-          text: 'GAMING STORE',
-          style: 'brand',
-        },
-        {
-          text: 'POTWIERDZENIE ZAMÓWIENIA',
-          style: 'header',
+          stack: [
+            { text: 'GAMING STORE', style: 'brand' },
+            { text: 'ORDER CONFIRMATION', style: 'header' },
+          ],
+          margin: [0, 0, 0, 18],
         },
         {
           columns: [
             {
               width: '*',
               text: [
-                { text: 'Numer transakcji\n', bold: true },
+                { text: 'Transaction number\n', bold: true },
                 data.transactionId,
               ],
             },
@@ -65,8 +64,8 @@ export class PdfGeneratorService {
               width: 'auto',
               alignment: 'right',
               text: [
-                { text: 'Data wystawienia\n', bold: true },
-                new Date().toLocaleDateString('pl-PL'),
+                { text: 'Issue date\n', bold: true },
+                new Date().toLocaleDateString('en-GB'),
               ],
             },
           ],
@@ -80,7 +79,7 @@ export class PdfGeneratorService {
               [
                 {
                   stack: [
-                    { text: 'NABYWCA', style: 'sectionTitle' },
+                    { text: 'CUSTOMER', style: 'sectionTitle' },
                     data.clientName,
                     data.email ? `E-mail: ${data.email}` : '',
                   ],
@@ -89,8 +88,8 @@ export class PdfGeneratorService {
                 },
                 {
                   stack: [
-                    { text: 'ADRES DOSTAWY', style: 'sectionTitle' },
-                    data.deliveryAddress || 'Adres nie został podany',
+                    { text: 'DELIVERY ADDRESS', style: 'sectionTitle' },
+                    data.deliveryAddress || 'No address provided',
                   ],
                   fillColor: '#F4F6F8',
                   margin: [10, 10, 10, 10],
@@ -124,7 +123,7 @@ export class PdfGeneratorService {
             {
               width: '*',
               text: [
-                { text: 'Metoda płatności\n', bold: true },
+                { text: 'Payment method\n', bold: true },
                 data.paymentMethod,
               ],
             },
@@ -134,7 +133,7 @@ export class PdfGeneratorService {
                 widths: ['*', 'auto'],
                 body: [
                   [
-                    { text: 'SUMA CAŁKOWITA', bold: true, color: '#FFFFFF' },
+                    { text: 'TOTAL AMOUNT', bold: true, color: '#FFFFFF' },
                     { text: `${data.paidTotal.toFixed(2)} PLN`, bold: true, alignment: 'right', color: '#FFFFFF' },
                   ],
                 ],
@@ -153,7 +152,7 @@ export class PdfGeneratorService {
           columnGap: 20,
         },
         {
-          text: 'Dziękujemy za zakup!',
+          text: 'Thank you for your purchase!',
           style: 'footer',
         },
       ],
@@ -169,6 +168,6 @@ export class PdfGeneratorService {
         lineHeight: 1.35,
       },
     };
-    pdfMake.createPdf(docDefinition).download('dokument.pdf');
+    pdfMake.createPdf(docDefinition).download('invoice.pdf');
   }
 }
