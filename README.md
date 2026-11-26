@@ -127,7 +127,7 @@ src/app/core/interceptore/error-simulation.config.ts
 | `INCORRECT_CART` | `0` | Adding a product to the cart |
 | `INCORRECT_PAYWALL` | `0` | Payment processing |
 | `INCORRECT_CONTACT` | `0` | Sending the contact form |
-| `INCORRECT_PDF_GENERATOR` | `1` | PDF invoice generation |
+| `INCORRECT_PDF_GENERATOR` | `0` | PDF invoice generation |
 | `LOADING_PAGE` | `0` | Initial page loading state |
 
 A value of `1` produces an HTTP `400 Bad Request` response. A value of `0` produces an HTTP `200 OK` response. Changing a flag requires no component changes.
