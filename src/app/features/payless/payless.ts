@@ -46,7 +46,7 @@ export class Payless {
     const clientName = 
       this.checkoutCustomer?.fullName?.trim() ||
       this.cardHolder.trim() ||
-      'Klient';
+      'Customer';
 
 
     this.httpSimulation.simulate('INCORRECT_PDF_GENERATOR').subscribe({

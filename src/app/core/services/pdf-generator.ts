@@ -31,7 +31,7 @@ export class PdfGeneratorService {
       ],
       ...data.items.map(item => [
         item.name,
-        { text: `${item.price.toFixed(2)} PLN`, alignment: 'right' as const },
+        { text: `$${item.price.toFixed(2)} USD`, alignment: 'right' as const },
       ]),
     ];
 
@@ -134,7 +134,7 @@ export class PdfGeneratorService {
                 body: [
                   [
                     { text: 'TOTAL AMOUNT', bold: true, color: '#FFFFFF' },
-                    { text: `${data.paidTotal.toFixed(2)} PLN`, bold: true, alignment: 'right', color: '#FFFFFF' },
+                    { text: `$${data.paidTotal.toFixed(2)} USD`, bold: true, alignment: 'right', color: '#FFFFFF' },
                   ],
                 ],
               },
